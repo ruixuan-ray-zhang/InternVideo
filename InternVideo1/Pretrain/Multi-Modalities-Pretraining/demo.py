@@ -21,6 +21,12 @@ with torch.no_grad():
     t = model.logit_scale.exp()
     probs = (video_features @ text_features.T * t).softmax(dim=-1).cpu().numpy()
 
+    allocated_memory = torch.cuda.memory_allocated()
+    print(f"Allocated GPU memory: {allocated_memory / 1024**3} GB ")
+
 print("Label probs: ")  # [[9.5619422e-01 4.3805469e-02 2.0393253e-07]]
 for t, p in zip(text_cand, probs[0]):
     print("{:30s}: {:.4f}".format(t, p))
+
+max_allocated_memory = torch.cuda.max_memory_allocated()
+print(f"Max allocated GPU memory: {max_allocated_memory / 1024**3} GB ")

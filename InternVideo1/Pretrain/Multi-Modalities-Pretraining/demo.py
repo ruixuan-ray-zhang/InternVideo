@@ -2,12 +2,15 @@ import torch
 import InternVideo
 
 text_cand = ["an airplane is taking off", "an airplane is flying", "a dog is chasing a ball"]
-video = InternVideo.load_video("./data/demo.mp4").cuda()
 
-model = InternVideo.load_model("./models/InternVideo-MM-L-14.ckpt").cuda()
+device = torch.device("cuda:1")
+
+video = InternVideo.load_video("./data/demo.mp4").to(device)
+
+model = InternVideo.load_model("./models/InternVideo-MM-B-16.ckpt").to(device)
 text = InternVideo.tokenize(
     text_cand
-).cuda()
+).to(device)
 
 with torch.no_grad():
     text_features = model.encode_text(text)

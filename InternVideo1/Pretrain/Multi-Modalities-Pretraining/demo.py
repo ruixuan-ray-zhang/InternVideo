@@ -1,13 +1,17 @@
 import torch
 import InternVideo
 
-text_cand = ["an airplane is taking off", "an airplane is flying", "a dog is chasing a ball"]
+# text_cand = ["an airplane is taking off", "an airplane is flying", "a dog is chasing a ball"]
+# video_path = './data/demo.mp4'
+
+text_cand = ["a person gets off the car and gets hit by another car", "a blue car is driving", "a total solar eclipse is happening"]
+video_path = './data/demo_WTS.mp4'
 
 device = torch.device("cuda:1")
 
-video = InternVideo.load_video("./data/demo.mp4").to(device)
+video = InternVideo.load_video(video_path).to(device)
 
-model = InternVideo.load_model("./models/InternVideo-MM-B-16.ckpt").to(device)
+model = InternVideo.load_model("./models/InternVideo-MM-L-14.ckpt").to(device)
 text = InternVideo.tokenize(
     text_cand
 ).to(device)

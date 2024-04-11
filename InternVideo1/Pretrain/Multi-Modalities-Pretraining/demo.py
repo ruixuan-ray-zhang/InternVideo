@@ -4,7 +4,7 @@ import InternVideo
 # text_cand = ["an airplane is taking off", "an airplane is flying", "a dog is chasing a ball"]
 # video_path = './data/demo.mp4'
 
-text_cand = ["a person gets off the car and gets hit by another car", "a blue car is driving", "a total solar eclipse is happening"]
+text_cand = ["a blue car is approaching another car, hitting a male, and driving through", "a blue car is approaching another car and driving through", "a total solar eclipse is happening"]
 video_path = './data/demo_WTS.mp4'
 
 device = torch.device("cuda:1")

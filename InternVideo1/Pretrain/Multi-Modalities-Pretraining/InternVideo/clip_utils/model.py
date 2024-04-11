@@ -48,11 +48,13 @@ class ResidualAttentionBlock(nn.Module):
             if self.attn_mask is not None
             else None
         )
-        return self.attn(x, x, x, need_weights=False, attn_mask=self.attn_mask)[0]
+        return self.attn(x, x, x, need_weights=True, attn_mask=self.attn_mask)
 
     def forward(self, x: torch.Tensor):
-        x = x + self.attention(self.ln_1(x))
-        x = x + self.mlp(self.ln_2(x))
+        result, attention = self.attention(self.ln_1(x[0]))
+        x[0] = x[0] + result
+        x[0] = x[0] + self.mlp(self.ln_2(x[0]))
+        x[1] = attention
         return x
 
 
@@ -80,6 +82,7 @@ class Transformer(nn.Module):
             segments = min(len(self.resblocks), self.checkpoint_num[1])
             return checkpoint_sequential(self.resblocks, segments, x)
         else:
+            x = [x, None]
             return self.resblocks(x)
 
 class VideoIntern(nn.Module):
@@ -227,7 +230,7 @@ class VideoIntern(nn.Module):
 
         x = x + self.positional_embedding.type(self.dtype)
         x = x.permute(1, 0, 2)  # NLD -> LND
-        x = self.transformer(x)
+        x, attention = self.transformer(x)
         x = x.permute(1, 0, 2)  # LND -> NLD
         x = self.ln_final(x).type(self.dtype)
 
@@ -240,7 +243,7 @@ class VideoIntern(nn.Module):
         if return_all_feats:
             return feats, x
 
-        return feats
+        return feats, attention
 
 
 def build_model(

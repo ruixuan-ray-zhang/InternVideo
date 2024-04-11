@@ -82,7 +82,6 @@ class Transformer(nn.Module):
         else:
             return self.resblocks(x)
 
-
 class VideoIntern(nn.Module):
     def __init__(
         self,
@@ -220,7 +219,6 @@ class VideoIntern(nn.Module):
     def encode_text(self, text, masked_indices=None, return_all_feats=False):
         # assert (text.max(dim=-1)[0] + 1 == self.token_embedding.num_embeddings).all(), \
         #     "The last token of each sentence should be eot_token, check the input"
-
         x = self.token_embedding(text).type(self.dtype)  # [batch_size, n_ctx, d_model]
         # x[torch.arange(x.shape[0]), text.argmax(dim=-1)] += self.eot_token_embedding
 

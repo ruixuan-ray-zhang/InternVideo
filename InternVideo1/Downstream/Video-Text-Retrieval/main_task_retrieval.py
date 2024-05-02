@@ -14,6 +14,8 @@ from modules.tokenization_clip import SimpleTokenizer as ClipTokenizer
 from modules.file_utils import PYTORCH_PRETRAINED_BERT_CACHE
 from modules.modeling import CLIP4Clip
 from modules.optimization import BertAdam
+import sys
+import pdb
 
 from util import parallel_apply, get_logger
 from dataloaders.data_dataloaders import DATALOADER_DICT
@@ -36,7 +38,7 @@ def get_args(description='CLIP4Clip on Retrieval Task'):
     parser.add_argument('--val_csv', type=str, default='data/MSR-VTT/anns/MSRVTT_JSFUSION_test.csv', help='')
     parser.add_argument('--data_path', type=str, default='data/caption.pickle', help='data pickle file path')
     # parser.add_argument('--features_path', type=str, default='data/videos_feature.pickle', help='feature path')
-    parser.add_argument('--features_path', type=str, default='s3://video_pub/MSR-VTT/videos', help='feature path')
+    parser.add_argument('--features_path', type=str, default='/mnt/NAS/data/ruixuan/data/data_hjc/TrainValVideo', help='feature path')
 
     parser.add_argument('--num_thread_reader', type=int, default=4, help='')
     parser.add_argument('--lr', type=float, default=0.0001, help='initial learning rate')
@@ -97,7 +99,6 @@ def get_args(description='CLIP4Clip on Retrieval Task'):
                         help="Frame order, 0: ordinary order; 1: reverse order; 2: random order.")
     parser.add_argument('--eval_frame_order', type=int, default=0, choices=[0, 1, 2],
                         help="Frame order, 0: ordinary order; 1: reverse order; 2: random order.")
-
     parser.add_argument('--freeze_layer_num', type=int, default=0, help="Layer NO. of CLIP need to freeze.")
     parser.add_argument('--slice_framepos', type=int, default=0, choices=[0, 1, 2],
                         help="0: cut from head frames; 1: cut from tail frames; 2: extract frames uniformly.")
@@ -193,18 +194,18 @@ def init_distributed_mode(args):
         print('Does not support training without GPU.')
         sys.exit(1)
 
-    dist.init_process_group(
-        backend="nccl",
-        init_method=args.dist_url,
-        world_size=args.world_size,
-        rank=args.rank,
-    )
+    # dist.init_process_group(
+    #     backend="nccl",
+    #     init_method=args.dist_url,
+    #     world_size=args.world_size,
+    #     rank=args.rank,
+    # )
 
-    torch.cuda.set_device(args.gpu)
-    print('| distributed init (rank {}): {}'.format(
-        args.rank, args.dist_url), flush=True)
-    dist.barrier()
-    setup_for_distributed(args.rank == 0)
+    # torch.cuda.set_device(args.gpu)
+    # print('| distributed init (rank {}): {}'.format(
+    #     args.rank, args.dist_url), flush=True)
+    # dist.barrier()
+    # setup_for_distributed(args.rank == 0)
 
     
 def set_seed_logger(args):

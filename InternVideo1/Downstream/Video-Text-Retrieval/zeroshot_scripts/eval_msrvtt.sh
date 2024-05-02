@@ -5,9 +5,9 @@ python -u -m main_task_retrieval \
     --epochs=5 \
     --batch_size=8 \
     --n_display=50 \
-    --train_csv="${DATA_PATH}/MSRVTT_train.9k.csv" \
-    --val_csv="${DATA_PATH}/MSRVTT_JSFUSION_test.csv" \
-    --data_path="${DATA_PATH}/MSRVTT_data.json" \
+    --train_csv="/mnt/NAS/data/ruixuan/data/data_hjc/MSR-VTT/anns/MSRVTT_train.9k.csv" \
+    --val_csv="/mnt/NAS/data/ruixuan/data/data_hjc/MSR-VTT/anns/MSRVTT_JSFUSION_test.csv" \
+    --data_path="/mnt/NAS/data/ruixuan/data/data_hjc/MSR-VTT/anns/MSRVTT_data.json" \
     --lr=1e-4 \
     --max_words=77 \
     --max_frames=8 \
@@ -21,8 +21,8 @@ python -u -m main_task_retrieval \
     --linear_patch=2d \
     --sim_header=meanP \
     --loose_type \
-    --pretrained_clip_name="ViT-L/14" \
+    --pretrained_clip_name="/mnt/NAS/data/ruixuan/data/data_hjc/ViT-L-14.pt" \
     --clip_evl \
-    --pretrained_path="" \
-    --output_dir="" \
-    --mergeclip=True \
+    --pretrained_path="/mnt/NAS/data/ruixuan/data/data_hjc/InternVideo-MM-L-14.ckpt" \
+    --output_dir="/mnt/NAS/data/ruixuan/data/data_hjc/msrvtt_result/" \
+    --mergeclip=True

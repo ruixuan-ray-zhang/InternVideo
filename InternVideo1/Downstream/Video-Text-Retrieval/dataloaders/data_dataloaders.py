@@ -47,6 +47,11 @@ def dataloader_msrvtt_test(args, tokenizer, subset="test"):
         frame_order=args.eval_frame_order,
         slice_framepos=args.slice_framepos,
     )
+    import pdb
+    test = msrvtt_testset[0]
+    print('data loader')
+    pdb.set_trace()
+    
     dataloader_msrvtt = DataLoader(
         msrvtt_testset,
         batch_size=args.batch_size_val,

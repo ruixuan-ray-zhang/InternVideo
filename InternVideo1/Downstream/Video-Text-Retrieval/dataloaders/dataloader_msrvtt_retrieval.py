@@ -12,11 +12,11 @@ from collections import defaultdict
 import json
 import random
 from dataloaders.rawvideo_util import RawVideoExtractor
+import pdb
 try:
     from petrel_client.client import Client
 
     client = Client()
-
     # Disable boto logger
     import logging
     logging.getLogger('boto3').setLevel(logging.WARNING)
@@ -145,6 +145,9 @@ class MSRVTT_DataLoader(Dataset):
                 video_path = video_bytes
                 if isinstance(video_path, bytes):
                     video_path = io.BytesIO(video_bytes)
+                    
+            print(video_path)
+            pdb.set_trace()
             vreader = VideoReader(video_path, ctx=cpu(0))
         
             fps = vreader.get_avg_fps()

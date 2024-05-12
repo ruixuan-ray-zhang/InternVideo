@@ -147,8 +147,10 @@ class MSRVTT_DataLoader(Dataset):
                     video_path = io.BytesIO(video_bytes)
                     
             print(video_path)
-            pdb.set_trace()
+            
             vreader = VideoReader(video_path, ctx=cpu(0))
+            print("loaded!")
+            pdb.set_trace()
         
             fps = vreader.get_avg_fps()
             f_start = 0 if start_time is None else int(start_time * fps)
